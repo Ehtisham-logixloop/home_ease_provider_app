@@ -10,6 +10,7 @@ import '../modules/auth/ForgetScreen.dart';
 import '../modules/auth/pin_screen.dart';
 import '../modules/auth/register_screen.dart';
 import '../modules/auth/set_password_screen.dart';
+import '../modules/profile/EditProfileScreen.dart';
 import '../modules/auth/sign_in_screen.dart';
 import '../modules/auth/sign_up_screen.dart';
 import '../modules/onboarding/onboarding_screen.dart';
@@ -75,6 +76,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.createOffer,
       page: () => OfferScreen(),
+    ),
+
+    GetPage(
+      name: AppRoutes.editProfile,
+      page: () => const EditProfileScreen(),
     ),
 
   ];

@@ -4,7 +4,6 @@ import '../../core/constants/app_color.dart';
 import '../chatScreen/MessagesScreen.dart';
 import '../job/MyJobScreen.dart';
 import '../profile/ProfileScreen.dart';
-import '../reguest/RequestScreen.dart';
 import 'HomeController.dart';
 import 'HomeTab.dart';
 
@@ -15,7 +14,6 @@ class HomeScreen extends StatelessWidget {
 
   final List<Widget> _screens = [
     const HomeTab(),
-    RequestScreen(),
     MyJobScreen(),
     MessagesScreen(),
     ProfileScreen(),
@@ -58,10 +56,9 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _navItem(0, "Home", "assets/icons/home.png"),
-          _navItem(1, "Requests", "assets/icons/request.png"),
-          _navItem(2, "My Job", "assets/icons/job.png"),
-          _navItem(3, "Messages", "assets/icons/message.png"),
-          _navItem(4, "Profile", "assets/icons/profile.png"),
+          _navItem(1, "My Job", "assets/icons/job.png"),
+          _navItem(2, "Messages", "assets/icons/message.png"),
+          _navItem(3, "Profile", "assets/icons/profile.png"),
         ],
       ),
     );

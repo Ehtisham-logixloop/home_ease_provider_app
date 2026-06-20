@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import '../../core/constants/app_color.dart';
 import '../../core/utils/responsive.dart';
 import '../../core/widgets/ProfileTile.dart';
+import '../../modules/auth/set_password_screen.dart';
+import '../../routes/app_routes.dart';
 import 'ProfileController.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -71,13 +73,13 @@ class ProfileScreen extends StatelessWidget {
                   ProfileTile(
                     icon: Icons.person_outline,
                     title: "Edit Profile",
-                    onTap: () {},
+                    onTap: () => Get.toNamed(AppRoutes.editProfile),
                   ),
                   Divider(color: AppColors.border.withOpacity(0.5)),
                   ProfileTile(
                     icon: Icons.lock_outline,
                     title: "Change Password",
-                    onTap: () {},
+                    onTap: () => Get.to(() => const SetPassword(isFromProfile: true)),
                   ),
                   Divider(color: AppColors.border.withOpacity(0.5)),
                   ProfileTile(

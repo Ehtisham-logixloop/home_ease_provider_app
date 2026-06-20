@@ -20,4 +20,28 @@ class ProviderModel {
     required this.profileImage,
     required this.jobsDone,
   });
+
+  ProviderModel copyWith({
+    String? name,
+    String? role,
+    String? email,
+    String? phone,
+    String? rating,
+    String? reviews,
+    String? location,
+    String? profileImage,
+    String? jobsDone,
+  }) {
+    return ProviderModel(
+      name: name ?? this.name,
+      role: role ?? this.role,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      rating: rating ?? this.rating,
+      reviews: reviews ?? this.reviews,
+      location: location ?? this.location,
+      profileImage: profileImage ?? this.profileImage,
+      jobsDone: jobsDone ?? this.jobsDone,
+    );
+  }
 }

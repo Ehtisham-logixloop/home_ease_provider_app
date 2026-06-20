@@ -13,7 +13,6 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AuthController>();
-
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
@@ -121,9 +120,7 @@ class OtpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   SizedBox(height: Responsive.spaceXL),
-
                   // BUTTON
                   Obx(() => SizedBox(
                     width: double.infinity,

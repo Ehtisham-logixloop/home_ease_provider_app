@@ -10,7 +10,8 @@ import 'auth_controller.dart';
 import 'pin_screen.dart';
 
 class SetPassword extends StatefulWidget {
-  const SetPassword({super.key});
+  final bool? isFromProfile;
+  const SetPassword({super.key, this.isFromProfile});
 
   @override
   State<SetPassword> createState() => _SetPasswordState();
@@ -21,6 +22,20 @@ class _SetPasswordState extends State<SetPassword> {
   bool obscure2 = true;
 
   final AuthController controller = Get.find<AuthController>();
+
+  void handleSave() {
+    if (widget.isFromProfile == true) {
+      // Handle change password
+      if (controller.setPasswordFormKey.currentState!.validate()) {
+        Get.snackbar("Success", "Password changed successfully!",
+            snackPosition: SnackPosition.BOTTOM);
+        Get.back();
+      }
+    } else {
+      // Original reset password flow
+      controller.resetPassword();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +56,13 @@ class _SetPasswordState extends State<SetPassword> {
                     size: Responsive.iconL,
                     color: AppColors.iconPrimary,
                   ),
-                  onPressed: () => Get.off(() => const OtpScreen()),
+                  onPressed: () => widget.isFromProfile == true
+                      ? Get.back()
+                      : Get.off(() => const OtpScreen()),
                 ),
                 SizedBox(height: Responsive.spaceL),
                 Text(
-                  "New Password",
+                  widget.isFromProfile == true ? "Change Password" : "New Password",
                   style: TextStyle(
                     fontSize: Responsive.textXXL,
                     fontWeight: FontWeight.bold,
@@ -93,7 +110,7 @@ class _SetPasswordState extends State<SetPassword> {
                 SizedBox(height: Responsive.spaceXL),
                 CustomButton(
                   text: "Save",
-                  onTap: () => controller.resetPassword(),
+                  onTap: handleSave,
                 ),
               ],
             ),
