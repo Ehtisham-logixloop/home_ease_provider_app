@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../home/HomeController.dart';
+import '../home/controller/HomeController.dart';
 
 
 class HomeBinding extends Bindings {

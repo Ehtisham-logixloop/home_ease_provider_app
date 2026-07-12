@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/widgets/custom_button.dart';
-import '../offerScreen/Offer_Screen.dart';
-import '../../routes/app_routes.dart';
-import 'CustomerDetailController.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../offerScreen/view/Offer_Screen.dart';
+import '../../../routes/app_routes.dart';
+import '../controller/CustomerDetailController.dart';
 
 class CustomerDetailScreen extends StatelessWidget {
   CustomerDetailScreen({super.key});

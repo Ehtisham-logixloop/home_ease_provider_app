@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../../data/models/MessageThread.dart';
+import '../../../data/models/MessageThread.dart';
 
 
 class MessageController extends GetxController {

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/utils/validation.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/custom_text_field.dart';
-import '../../routes/app_routes.dart';
-import 'auth_controller.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/utils/validation.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../../../routes/app_routes.dart';
+import '../controller/auth_controller.dart';
 
 class SigninScreen extends StatelessWidget {
   SigninScreen({super.key});
 
-  final AuthController controller = Get.put(AuthController());
+  final AuthController controller = Get.find<AuthController>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Widget buildLabel(String text) {
@@ -58,18 +58,18 @@ class SigninScreen extends StatelessWidget {
                 CustomTextField(
                   hint: "Enter email",
                   controller: controller.signinEmail,
-                  icon: Icons.email,
+                  prefixIcon: Icon(Icons.email, color: AppColors.iconPrimary),
                   validator: Validators.email,
                 ),
 
-                SizedBox(height: Responsive.spaceM),
+                SizedBox(height: Responsive.spaceS),
                 buildLabel("Password"),
                 const SizedBox(height: 6),
                 Obx(() {
                   return CustomTextField(
                     hint: "Enter password",
                     controller: controller.signinPassword,
-                    icon: Icons.lock,
+                    prefixIcon: Icon(Icons.lock, color: AppColors.iconPrimary),
                     obscureText: controller.hidePassword.value,
                     validator: Validators.password,
                     suffixIcon: IconButton(
@@ -83,7 +83,6 @@ class SigninScreen extends StatelessWidget {
                     ),
                   );
                 }),
-                SizedBox(height: 8),
                 Align(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
@@ -94,9 +93,7 @@ class SigninScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: Responsive.spaceL),
-
-                // BUTTON (LOADING STATE)
+                SizedBox(height: Responsive.spaceXL),
                 Obx(() {
                   return SizedBox(
                     width: double.infinity,
@@ -177,15 +174,15 @@ class SigninScreen extends StatelessWidget {
 
   Widget socialButton(String assetPath) {
     return Container(
-      height: 55,
-      width: 80,
+      height: 40,
+      width: 60,
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.border),
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(8),
         child: Image.asset(assetPath),
       ),
     );

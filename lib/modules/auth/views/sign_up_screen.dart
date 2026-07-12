@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/utils/validation.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/custom_text_field.dart';
-import '../../routes/app_routes.dart';
-import 'auth_controller.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/utils/validation.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../../../routes/app_routes.dart';
+import '../controller/auth_controller.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
 
-  final AuthController controller = Get.put(AuthController());
+  final AuthController controller = Get.find<AuthController>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Widget buildLabel(String text) {
@@ -24,7 +24,6 @@ class SignupScreen extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,49 +52,49 @@ class SignupScreen extends StatelessWidget {
                 SizedBox(height: Responsive.spaceL),
 
                 buildLabel("Full Name"),
-                const SizedBox(height: 6),
+                SizedBox(height: 3),
                 CustomTextField(
                   hint: "Enter your full name",
                   controller: controller.signupName,
-                  icon: Icons.person,
+                  prefixIcon: Icon(Icons.person, color: AppColors.iconPrimary),
                   validator: Validators.name,
                 ),
 
-                SizedBox(height: Responsive.spaceM),
+                SizedBox(height: Responsive.spaceXS),
 
                 // EMAIL
                 buildLabel("Email"),
-                const SizedBox(height: 6),
+                SizedBox(height: 3),
                 CustomTextField(
                   hint: "Enter email",
                   controller: controller.signupEmail,
-                  icon: Icons.email,
+                  prefixIcon: Icon(Icons.email, color: AppColors.iconPrimary),
                   validator: Validators.email,
                 ),
 
-                SizedBox(height: Responsive.spaceM),
+                SizedBox(height: Responsive.spaceXS),
 
                 // PHONE
                 buildLabel("Phone"),
-                const SizedBox(height: 6),
+                SizedBox(height: 3),
                 CustomTextField(
                   hint: "Enter phone",
                   controller: controller.signupPhone,
-                  icon: Icons.phone,
+                  prefixIcon: Icon(Icons.phone, color: AppColors.iconPrimary),
                   validator: Validators.phone,
                   keyboardType: TextInputType.phone,
                 ),
 
-                SizedBox(height: Responsive.spaceM),
+                SizedBox(height: Responsive.spaceXS),
 
                 // PASSWORD
                 buildLabel("Password"),
-                const SizedBox(height: 6),
+                SizedBox(height: 3),
                 Obx(() {
                   return CustomTextField(
                     hint: "Enter password",
                     controller: controller.signupPassword,
-                    icon: Icons.lock,
+                    prefixIcon: Icon(Icons.lock, color: AppColors.iconPrimary),
                     obscureText: controller.hidePassword.value,
                     validator: Validators.password,
                     suffixIcon: IconButton(
@@ -124,13 +123,12 @@ class SignupScreen extends StatelessWidget {
                       onTap: () {
                         if (formKey.currentState!.validate()) {
                           controller.signup();
-
-                          Get.snackbar(
-                            "Success",
-                            "Signup successful",
-                            backgroundColor: AppColors.success,
-                            colorText: Colors.white,
-                          );
+                          // Get.snackbar(
+                          //   "Success",
+                          //   "Signup successful",
+                          //   backgroundColor: AppColors.success,
+                          //   colorText: Colors.white,
+                          // );
                           Get.toNamed(AppRoutes.register);
                         } else {
                           Get.snackbar(
@@ -146,8 +144,6 @@ class SignupScreen extends StatelessWidget {
                 }),
 
                 SizedBox(height: Responsive.spaceL),
-
-                // OR TEXT
                 Center(
                   child: Text(
                     "or continue with",
@@ -159,8 +155,6 @@ class SignupScreen extends StatelessWidget {
                 ),
 
                 SizedBox(height: Responsive.spaceM),
-
-                // SOCIAL BUTTONS
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -203,15 +197,15 @@ class SignupScreen extends StatelessWidget {
 
   Widget socialButton(String assetPath) {
     return Container(
-      height: 55,
-      width: 80,
+      height: 40,
+      width: 60,
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.border),
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(8),
         child: Image.asset(assetPath),
       ),
     );

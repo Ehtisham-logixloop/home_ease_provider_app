@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/custom_text_field.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
 import 'OfferController.dart';
 
 class OfferScreen extends StatelessWidget {
@@ -61,28 +61,28 @@ class OfferScreen extends StatelessWidget {
                 return GestureDetector(
                   onTap: controller.enableEdit, // 👈 TAP TO EDIT
                   child: controller.isEditing.value
-                      ?CustomTextField(
-                    controller: controller.descriptionController,
-                    hint: "Enter description",
-                    fillColor: AppColors.cardBackground,
-                    disableFocusEffect: true,
-                  )
+                      ? CustomTextField(
+                          controller: controller.descriptionController,
+                          hint: "Enter description",
+                          fillColor: AppColors.cardBackground,
+                          maxLines: 5,
+                        )
                       : Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(Responsive.paddingM),
-                    decoration: BoxDecoration(
-                      color: AppColors.cardBackground,
-                      border: Border.all(color: AppColors.border),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      data.description,
-                      style: TextStyle(
-                        fontSize: Responsive.textM,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ),
+                          width: double.infinity,
+                          padding: EdgeInsets.all(Responsive.paddingM),
+                          decoration: BoxDecoration(
+                            color: AppColors.cardBackground,
+                            border: Border.all(color: AppColors.border),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            data.description,
+                            style: TextStyle(
+                              fontSize: Responsive.textM,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                        ),
                 );
               }),
 
@@ -159,12 +159,11 @@ class OfferScreen extends StatelessWidget {
                   onTap: controller.enableEdit,
                   child: controller.isEditing.value
                       ? CustomTextField(
-                    controller: controller.amountController,
-                    hint: "Enter amount",
-                    keyboardType: TextInputType.number,
-                    fillColor: AppColors.cardBackground,
-                    disableFocusEffect: true,
-                  )
+                          controller: controller.amountController,
+                          hint: "Enter amount",
+                          keyboardType: TextInputType.number,
+                          fillColor: AppColors.cardBackground,
+                        )
                       : Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(Responsive.paddingM),

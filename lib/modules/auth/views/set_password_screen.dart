@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../core/utils/validation.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/custom_text_field.dart';
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import 'auth_controller.dart';
+import '../../../core/utils/validation.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../controller/auth_controller.dart';
 import 'pin_screen.dart';
 
 class SetPassword extends StatefulWidget {
@@ -73,7 +72,7 @@ class _SetPasswordState extends State<SetPassword> {
                 CustomTextField(
                   hint: "New Password",
                   controller: controller.password,
-                  icon: Icons.lock_outline,
+                  prefixIcon: Icon(Icons.lock_outline, color: AppColors.iconPrimary),
                   obscureText: obscure1,
                   validator: Validators.password,
                   suffixIcon: IconButton(
@@ -88,7 +87,7 @@ class _SetPasswordState extends State<SetPassword> {
                 CustomTextField(
                   hint: "Confirm Password",
                   controller: controller.confirmPassword,
-                  icon: Icons.lock_outline,
+                  prefixIcon: Icon(Icons.lock_outline, color: AppColors.iconPrimary),
                   obscureText: obscure2,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

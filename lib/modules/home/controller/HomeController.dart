@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/models/RequestModel.dart';
-import '../../routes/app_routes.dart';
+import '../../../data/models/RequestModel.dart';
+import '../../../routes/app_routes.dart';
 
 class HomeController extends GetxController {
 

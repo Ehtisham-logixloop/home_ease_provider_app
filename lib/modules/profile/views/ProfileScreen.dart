@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/widgets/ProfileTile.dart';
-import '../../modules/auth/set_password_screen.dart';
-import '../../routes/app_routes.dart';
-import 'ProfileController.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/widgets/ProfileTile.dart';
+import '../../auth/views/set_password_screen.dart';
+import '../../../routes/app_routes.dart';
+import '../controller/ProfileController.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});

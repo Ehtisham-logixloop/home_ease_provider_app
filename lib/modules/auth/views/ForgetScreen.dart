@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/custom_text_field.dart';
-import 'auth_controller.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../controller/auth_controller.dart';
 
 class ForgetScreen extends StatelessWidget {
   const ForgetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AuthController());
+    final controller = Get.find<AuthController>();
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
@@ -62,7 +62,7 @@ class ForgetScreen extends StatelessWidget {
                   CustomTextField(
                     hint: "Enter email or number",
                     controller: controller.forgotController,
-                    icon: Icons.email,
+                    prefixIcon: Icon(Icons.email, color: AppColors.iconSecondary),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Required field";

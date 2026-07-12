@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/custom_text_field.dart';
-import '../profile/ProfileController.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../controller/ProfileController.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -86,7 +86,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 CustomTextField(
                   hint: "Name",
                   controller: nameController,
-                  icon: Icons.person_outline,
+                  prefixIcon: Icon(Icons.person_outline, color: AppColors.iconSecondary),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Name is required";
@@ -98,7 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 CustomTextField(
                   hint: "Role / Profession",
                   controller: roleController,
-                  icon: Icons.work_outline,
+                  prefixIcon: Icon(Icons.work_outline, color: AppColors.iconSecondary),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Role is required";
@@ -110,7 +110,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 CustomTextField(
                   hint: "Email",
                   controller: emailController,
-                  icon: Icons.email_outlined,
+                  prefixIcon: Icon(Icons.email_outlined, color: AppColors.iconSecondary),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -126,7 +126,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 CustomTextField(
                   hint: "Phone Number",
                   controller: phoneController,
-                  icon: Icons.phone_outlined,
+                  prefixIcon: Icon(Icons.phone_outlined, color: AppColors.iconSecondary),
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -139,7 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 CustomTextField(
                   hint: "Location",
                   controller: locationController,
-                  icon: Icons.location_on_outlined,
+                  prefixIcon: Icon(Icons.location_on_outlined, color: AppColors.iconSecondary),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Location is required";

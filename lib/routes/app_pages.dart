@@ -1,20 +1,18 @@
 import 'package:get/get.dart';
-
-
 import '../modules/ bindings/HomeBinding.dart';
-
-import '../modules/customer/Customer_Detail_Screen.dart';
-import '../modules/home/home_screen.dart';
-import '../modules/offerScreen/Offer_Screen.dart';
-import '../modules/auth/ForgetScreen.dart';
-import '../modules/auth/pin_screen.dart';
-import '../modules/auth/register_screen.dart';
-import '../modules/auth/set_password_screen.dart';
-import '../modules/profile/EditProfileScreen.dart';
-import '../modules/auth/sign_in_screen.dart';
-import '../modules/auth/sign_up_screen.dart';
-import '../modules/onboarding/onboarding_screen.dart';
-import '../modules/splash/splash_screen.dart';
+import '../modules/MessageScreen/view/ChatScreen.dart';
+import '../modules/auth/views/ForgetScreen.dart';
+import '../modules/auth/views/pin_screen.dart';
+import '../modules/auth/views/register_screen.dart';
+import '../modules/auth/views/set_password_screen.dart';
+import '../modules/auth/views/sign_in_screen.dart';
+import '../modules/auth/views/sign_up_screen.dart';
+import '../modules/customer/view/Customer_Detail_Screen.dart';
+import '../modules/home/view/home_screen.dart';
+import '../modules/offerScreen/view/Offer_Screen.dart';
+import '../modules/onboarding/view/onboarding_screen.dart';
+import '../modules/profile/views/EditProfileScreen.dart';
+import '../modules/splash/view/splash_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -80,7 +78,12 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.editProfile,
-      page: () => const EditProfileScreen(),
+      page: () =>  EditProfileScreen(),
+    ),
+
+    GetPage(
+      name: AppRoutes.chat,
+      page: () => ChatScreen(thread: Get.arguments),
     ),
 
   ];

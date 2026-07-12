@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/constants/app_color.dart';
-import '../chatScreen/MessagesScreen.dart';
-import '../job/MyJobScreen.dart';
-import '../profile/ProfileScreen.dart';
-import 'HomeController.dart';
+import '../../../core/constants/app_color.dart';
+
+import '../../MessageScreen/view/MessagesScreen.dart';
+import '../../job/MyJobScreen.dart';
+import '../../profile/views/ProfileScreen.dart';
+import '../controller/HomeController.dart';
 import 'HomeTab.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final controller = Get.find<HomeController>();
-
   final List<Widget> _screens = [
     const HomeTab(),
     MyJobScreen(),

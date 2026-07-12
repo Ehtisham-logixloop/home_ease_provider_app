@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../data/models/OfferModel.dart';
+import '../../../data/models/OfferModel.dart';
 
 class OfferController extends GetxController {
 

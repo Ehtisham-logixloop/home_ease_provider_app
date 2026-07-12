@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'dart:convert';
-import '../../data/models/CustomerDetailModel.dart';
+import '../../../data/models/CustomerDetailModel.dart';
 
 
 class CustomerDetailController extends GetxController {

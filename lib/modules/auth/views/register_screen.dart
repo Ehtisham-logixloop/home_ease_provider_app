@@ -4,13 +4,10 @@ import 'package:get/get.dart';
 
 
 
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/utils/validation.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/custom_text_field.dart';
-import '../../routes/app_routes.dart';
-import 'auth_controller.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../controller/auth_controller.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -30,12 +27,7 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-// ================= HEADER =================
-
                 SizedBox(height: Responsive.spaceL),
-
-// ================= PROFILE IMAGE =================
                 Center(
                   child: Obx(() {
                     return GestureDetector(
@@ -43,7 +35,7 @@ class RegisterScreen extends StatelessWidget {
                       child: Stack(
                         children: [
                           CircleAvatar(
-                            radius: 55,
+                            radius: 40,
                             backgroundImage: controller.profileImage.value != null
                                 ? FileImage(controller.profileImage.value!)
                                 : const AssetImage("assets/images/profile.png") as ImageProvider,
@@ -66,7 +58,6 @@ class RegisterScreen extends StatelessWidget {
 
                 SizedBox(height: Responsive.spaceL),
 
-// ================= CATEGORY =================
                 const Text("Service Category",
                     style: TextStyle(fontWeight: FontWeight.w600)),
 
@@ -79,24 +70,20 @@ class RegisterScreen extends StatelessWidget {
                     onTap: _openCategorySheet,
                   );
                 }),
-
                 SizedBox(height: Responsive.spaceM),
-                const Text("CINC",
+                const Text("CNIC Image",
                     style: TextStyle(fontWeight: FontWeight.w600)),
-
-// ================= CNIC =================
-                CustomTextField(
-                  hint: "CNIC",
-                  controller: controller.cnic,
-                  icon: Icons.badge,
-                  validator: Validators.cnic,
-                ),
-
-                SizedBox(height: Responsive.spaceM),
+                SizedBox(height: 6),
+                Obx(() {
+                  return _uploadCard(
+                    title: "Upload CNIC Image",
+                    fileName: controller.cnicFile.value?.name,
+                    onTap: controller.pickCnicFile,
+                  );
+                }),
                 const Text("Experience",
                     style: TextStyle(fontWeight: FontWeight.w600)),
-
-// ================= EXPERIENCE FILE =================
+                SizedBox(height: 6),
                 Obx(() {
                   return _uploadCard(
                     title: "Upload Experience Document",
@@ -109,7 +96,7 @@ class RegisterScreen extends StatelessWidget {
 
                 const Text("Police Certification",
                     style: TextStyle(fontWeight: FontWeight.w600)),
-// ================= POLICE FILE =================
+                SizedBox(height: 6),
                 Obx(() {
                   return _uploadCard(
                     title: "Police Verification Document",
@@ -119,8 +106,6 @@ class RegisterScreen extends StatelessWidget {
                 }),
 
                 SizedBox(height: Responsive.spaceM),
-
-// ================= LOCATION =================
                 const Text("Location",
                     style: TextStyle(fontWeight: FontWeight.w600)),
 
@@ -167,9 +152,10 @@ class RegisterScreen extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
+        height: 50,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
+          border: Border.all(color: Color(0xFFE0E0E0)),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -192,9 +178,10 @@ class RegisterScreen extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
+        height: 50,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
+          border: Border.all(color: Color(0xFFE0E0E0)),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -206,7 +193,7 @@ class RegisterScreen extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            const Icon(Icons.upload_file),
+            const Icon(Icons.upload_file,color: AppColors.iconPrimary),
           ],
         ),
       ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../routes/app_routes.dart';
+import '../../../routes/app_routes.dart';
 
 class AuthController extends GetxController {
 
@@ -77,6 +77,7 @@ class AuthController extends GetxController {
 
   var experienceFile = Rxn<PlatformFile>();
   var policeFile = Rxn<PlatformFile>();
+  var cnicFile = Rxn<PlatformFile>();
 
   Future<void> pickExperienceFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -89,6 +90,13 @@ class AuthController extends GetxController {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       policeFile.value = result.files.first;
+    }
+  }
+
+  Future<void> pickCnicFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      cnicFile.value = result.files.first;
     }
   }
 
@@ -137,8 +145,8 @@ class AuthController extends GetxController {
       return false;
     }
 
-    if (cnic.text.trim().isEmpty) {
-      _showError("Enter CNIC");
+    if (cnicFile.value == null) {
+      _showError("Upload CNIC image");
       return false;
     }
 
@@ -286,6 +294,9 @@ class AuthController extends GetxController {
     selectedLocation.value = "";
 
     profileImage.value = null;
+    cnicFile.value = null;
+    experienceFile.value = null;
+    policeFile.value = null;
     cities.clear();
   }
 

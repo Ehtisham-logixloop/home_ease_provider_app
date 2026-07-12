@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../core/constants/app_color.dart';
-import '../../core/utils/responsive.dart';
-import '../../core/widgets/custom_button.dart';
-import 'auth_controller.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/utils/responsive.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../controller/auth_controller.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
@@ -26,14 +26,7 @@ class OtpScreen extends StatelessWidget {
                 children: [
 
                   SizedBox(height: Responsive.spaceM),
-                  Obx(() => SizedBox(
-                    width: double.infinity,
-                    height: Responsive.buttonHeight,
-                    child: CustomButton(
-                      text: controller.isLoading.value ? "Verifying..." : "Verify",
-                      onTap: controller.isLoading.value ? null : () => controller.verifyOtp(),
-                    ),
-                  )),
+
 
                   // 🔙 BACK
                   IconButton(

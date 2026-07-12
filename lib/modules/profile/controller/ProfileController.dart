@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../data/models/ProviderModel.dart';
-import '../../routes/app_routes.dart';
+import '../../../data/models/ProviderModel.dart';
+import '../../../routes/app_routes.dart';
 
 class ProfileController extends GetxController {
   // Use a model for profile data
