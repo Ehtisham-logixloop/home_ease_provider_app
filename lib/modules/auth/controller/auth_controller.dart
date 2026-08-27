@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../routes/app_routes.dart';
+import '../services/auth_api_service.dart';
 
 class AuthController extends GetxController {
 
@@ -190,17 +191,25 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await AuthApiService().registerProvider(
+      name: signupName.text.trim(),
+      email: signupEmail.text.trim(),
+      password: signupPassword.text.trim(),
+      phone: signupPhone.text.trim(),
+      location: selectedLocation.value.trim(),
+    );
 
     isLoading.value = false;
 
-    _showSuccess("Registered Successfully");
-
-    _clearFields();
-
-    Get.offAllNamed(AppRoutes.login);
-
-    return true;
+    if (result.success) {
+      _showSuccess(result.message.isEmpty ? "Registered Successfully" : result.message);
+      _clearFields();
+      Get.offAllNamed(AppRoutes.login);
+      return true;
+    } else {
+      _showError(result.message.isEmpty ? "Registration failed" : result.message);
+      return false;
+    }
   }
 
   // ================= FORGOT PASSWORD =================
