@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
-import 'dart:convert';
 import '../../../data/models/CustomerDetailModel.dart';
-
+import '../../../data/models/RequestModel.dart';
+import '../services/customer_api_service.dart';
 
 class CustomerDetailController extends GetxController {
 
   var isLoading = false.obs;
   var customer = Rxn<CustomerDetailModel>();
+
+  final CustomerApiService _api = CustomerApiService();
 
   @override
   void onInit() {
@@ -18,26 +20,38 @@ class CustomerDetailController extends GetxController {
     try {
       isLoading.value = true;
 
-      /// 🔥 FAKE API RESPONSE (replace with real API)
-      await Future.delayed(const Duration(seconds: 2));
+      final args = Get.arguments;
+      String? requestId;
 
-      final response = {
-        "name": "Saad Mughal",
-        "sub_category": "Plumber",
-        "description":
-        "I want repair my washroom shower and install tap...",
-        "amount": "1500",
-        "date": "Sep, 13, 2025",
-        "time": "11.00 AM",
-        "location": "Sialkot road Street no 4.. house no 16",
-        "images": [
-          "assets/images/tap.jpg",
-          "assets/images/sink.jpg"
-        ]
-      };
+      if (args is RequestModel) {
+        requestId = args.runtimeType.toString().contains('RequestModel')
+            ? null
+            : null;
+      } else if (args is String) {
+        requestId = args;
+      } else if (args is Map && args['requestId'] != null) {
+        requestId = args['requestId'].toString();
+      }
 
-      customer.value = CustomerDetailModel.fromJson(response);
+      if (requestId != null) {
+        final result = await _api.fetchCustomerDetail(requestId);
+        if (result != null) {
+          customer.value = result;
+          return;
+        }
+      }
 
+      customer.value = CustomerDetailModel(
+        name: args is RequestModel ? args.name : 'Customer',
+        subCategory: '',
+        description:
+            args is RequestModel ? args.desc : 'Service requested',
+        amount: args is RequestModel ? args.price : '0',
+        date: '',
+        time: '',
+        location: args is RequestModel ? args.location : '',
+        images: [],
+      );
     } finally {
       isLoading.value = false;
     }

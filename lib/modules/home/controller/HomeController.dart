@@ -1,59 +1,63 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/models/RequestModel.dart';
 import '../../../routes/app_routes.dart';
+import '../services/home_api_service.dart';
 
 class HomeController extends GetxController {
 
   var isOnline = true.obs;
   var isLoading = false.obs;
+  var isTogglingOnline = false.obs;
 
   var requests = <RequestModel>[].obs;
   var currentIndex = 0.obs;
 
+  final HomeApiService _api = HomeApiService();
+
   @override
   void onInit() {
     super.onInit();
-    loadDummyData();
+    fetchRequests();
   }
 
-  void toggleOnline(bool value) {
-    isOnline.value = value;
+  Future<void> toggleOnline(bool value) async {
+    isTogglingOnline.value = true;
+    try {
+      final result = await _api.toggleOnline(isOnline: value);
+      if (result.success) {
+        isOnline.value = value;
+      } else {
+        Get.snackbar(
+          "Error",
+          result.message.isEmpty
+              ? "Failed to update status"
+              : result.message,
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } finally {
+      isTogglingOnline.value = false;
+    }
   }
 
   void changeTab(int index) {
     currentIndex.value = index;
   }
 
-  void loadDummyData() {
-    requests.value = [
-      RequestModel(
-        name: "Saad Mughal",
-        location: "Sialkot road street no 4...",
-        rating: "4.4",
-        price: "1500",
-        desc: "It is a long established fact that a reader will be distracted...",
-      ),
-      RequestModel(
-        name: "Ali Khan",
-        location: "Gujranwala Garden Town",
-        rating: "4.2",
-        price: "1200",
-        desc: "Professional service with quality work...",
-      ),
-    ];
-  }
   void openRequestDetail(RequestModel item) {
     Get.toNamed(AppRoutes.customerDetail, arguments: item);
   }
+
   Future<void> fetchRequests() async {
     try {
       isLoading.value = true;
-
-      await Future.delayed(const Duration(seconds: 2));
-
-      // API later:
-      // requests.value = response.map((e) => RequestModel.fromJson(e)).toList();
-
+      final result = await _api.fetchRequests();
+      if (result.isNotEmpty) {
+        requests.value = result;
+      }
     } finally {
       isLoading.value = false;
     }

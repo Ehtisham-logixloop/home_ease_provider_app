@@ -89,7 +89,7 @@ class HomeTab extends StatelessWidget {
 
           SizedBox(height: Responsive.spaceL),
 
-          /// EARNING
+
           Text("Earning Overview",
               style: TextStyle(
                   fontSize: Responsive.textXL,

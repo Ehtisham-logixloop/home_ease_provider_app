@@ -178,11 +178,26 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await AuthApiService().registerProvider(
+      name: signupName.text.trim(),
+      email: signupEmail.text.trim(),
+      password: signupPassword.text.trim(),
+      phone: signupPhone.text.trim(),
+      location: selectedLocation.value.trim(),
+      category: selectedCategory.value.isNotEmpty
+          ? selectedCategory.value
+          : null,
+    );
 
     isLoading.value = false;
 
-    _showSuccess("Signup Completed");
+    if (result.success) {
+      _showSuccess(result.message.isEmpty
+          ? "Signup Completed"
+          : result.message);
+    } else {
+      _showError(result.message.isEmpty ? "Signup failed" : result.message);
+    }
   }
 
   // ================= REGISTER (EXTRA) =================
@@ -197,6 +212,10 @@ class AuthController extends GetxController {
       password: signupPassword.text.trim(),
       phone: signupPhone.text.trim(),
       location: selectedLocation.value.trim(),
+      category: selectedCategory.value.isNotEmpty
+          ? selectedCategory.value
+          : null,
+      cnic: cnic.text.trim().isNotEmpty ? cnic.text.trim() : null,
     );
 
     isLoading.value = false;
@@ -221,11 +240,22 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await AuthApiService().sendOtp(
+      email: forgotController.text.trim(),
+    );
 
     isLoading.value = false;
-    _showSuccess("OTP Sent Successfully");
-    Get.toNamed(AppRoutes.otp);
+
+    if (result.success) {
+      _showSuccess(result.message.isEmpty
+          ? "OTP Sent Successfully"
+          : result.message);
+      Get.toNamed(AppRoutes.otp);
+    } else {
+      _showError(result.message.isEmpty
+          ? "Failed to send OTP"
+          : result.message);
+    }
   }
 
   Future<void> verifyOtp() async {
@@ -236,12 +266,21 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await AuthApiService().verifyOtp(
+      email: forgotController.text.trim(),
+      otp: otpController.text.trim(),
+    );
 
     isLoading.value = false;
-    _showSuccess("OTP Verified");
-    Get.toNamed(AppRoutes.resetPassword);
+
+    if (result.success) {
+      _showSuccess(result.message.isEmpty ? "OTP Verified" : result.message);
+      Get.toNamed(AppRoutes.resetPassword);
+    } else {
+      _showError(result.message.isEmpty ? "Invalid OTP" : result.message);
+    }
   }
+
   Future<void> resetPassword() async {
     if (!setPasswordFormKey.currentState!.validate()) {
       _showError("Fix password fields");
@@ -255,12 +294,27 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await AuthApiService().resetPassword(
+      email: forgotController.text.trim(),
+      otp: otpController.text.trim(),
+      newPassword: password.text.trim(),
+      confirmPassword: confirmPassword.text.trim(),
+    );
 
     isLoading.value = false;
-    _showSuccess("Password Set Successfully");
-    Get.offAllNamed(AppRoutes.login);
+
+    if (result.success) {
+      _showSuccess(result.message.isEmpty
+          ? "Password Set Successfully"
+          : result.message);
+      Get.offAllNamed(AppRoutes.login);
+    } else {
+      _showError(result.message.isEmpty
+          ? "Failed to reset password"
+          : result.message);
+    }
   }
+
   Future<bool> signin() async {
     final form = signinFormKey.currentState;
 
@@ -271,13 +325,22 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await AuthApiService().loginProvider(
+      email: signinEmail.text.trim(),
+      password: signinPassword.text.trim(),
+    );
 
     isLoading.value = false;
 
-    _showSuccess("Login Successful");
-
-    return true;
+    if (result.success) {
+      _showSuccess(result.message.isEmpty ? "Login Successful" : result.message);
+      _clearFields();
+      Get.offAllNamed(AppRoutes.home);
+      return true;
+    } else {
+      _showError(result.message.isEmpty ? "Login failed" : result.message);
+      return false;
+    }
   }
 
   // ================= RESET =================

@@ -1,24 +1,58 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import '../../../core/constants/api_constants.dart';
+import '../../../core/network/api_response.dart';
+import '../../../core/network/base_api_client.dart';
+import '../../../core/network/token_storage.dart';
 
-class RegisterResponse {
+class LoginResponse {
   final bool success;
   final String message;
-  final dynamic data;
+  final String? token;
+  final String? userId;
+  final String? role;
+  final Map<String, dynamic>? user;
 
-  RegisterResponse({
+  LoginResponse({
     required this.success,
     required this.message,
-    this.data,
+    this.token,
+    this.userId,
+    this.role,
+    this.user,
   });
 
-  factory RegisterResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterResponse(
-      success: json['success'] ?? json['status'] ?? false,
-      message: json['message'] ?? json['msg'] ?? '',
-      data: json['data'],
+  factory LoginResponse.fromApiResponse(ApiResponse response) {
+    final data = response.data is Map<String, dynamic>
+        ? response.data as Map<String, dynamic>
+        : <String, dynamic>{};
+
+    String? token;
+    String? userId;
+    String? role;
+    Map<String, dynamic>? user;
+
+    if (response.success) {
+      token = data['token']?.toString() ?? data['accessToken']?.toString();
+      userId = data['userId']?.toString() ??
+          data['id']?.toString() ??
+          (data['user'] is Map<String, dynamic>
+              ? data['user']['id']?.toString()
+              : null);
+      role = data['role']?.toString() ??
+          (data['user'] is Map<String, dynamic>
+              ? data['user']['role']?.toString()
+              : null);
+      user = data['user'] is Map<String, dynamic>
+          ? data['user'] as Map<String, dynamic>
+          : (data.isNotEmpty ? data : null);
+    }
+
+    return LoginResponse(
+      success: response.success,
+      message: response.message,
+      token: token,
+      userId: userId,
+      role: role,
+      user: user,
     );
   }
 }
@@ -28,78 +62,118 @@ class AuthApiService {
   factory AuthApiService() => _instance;
   AuthApiService._internal();
 
-  final Map<String, String> _headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
+  final BaseApiClient _client = BaseApiClient();
 
-  Future<RegisterResponse> registerProvider({
+  // ================= REGISTER =================
+  Future<ApiResponse> registerProvider({
     required String name,
     required String email,
     required String password,
     required String phone,
     required String location,
+    String? category,
+    String? cnic,
     String role = 'provider',
   }) async {
-    try {
-      final Uri url = Uri.parse(ApiConstants.register);
-
-      final Map<String, dynamic> body = {
+    return _client.post(
+      ApiConstants.register,
+      requireAuth: false,
+      body: {
         'name': name,
         'email': email,
         'password': password,
         'phone': phone,
         'role': role,
         'location': location,
-      };
-
-      final response = await http
-          .post(
-            url,
-            headers: _headers,
-            body: jsonEncode(body),
-          )
-          .timeout(const Duration(seconds: 30));
-
-      return _handleResponse(response);
-    } catch (e) {
-      return RegisterResponse(
-        success: false,
-        message: 'Network error: ${e.toString().replaceAll('Exception: ', '')}',
-      );
-    }
+        if (category != null) 'category': category,
+        if (cnic != null) 'cnic': cnic,
+      },
+    );
   }
 
-  RegisterResponse _handleResponse(http.Response response) {
-    final int statusCode = response.statusCode;
-    final String body = response.body;
+  // ================= LOGIN =================
+  Future<LoginResponse> loginProvider({
+    required String email,
+    required String password,
+  }) async {
+    final response = await _client.post(
+      ApiConstants.login,
+      requireAuth: false,
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
 
-    try {
-      final Map<String, dynamic> decoded = jsonDecode(body);
+    final loginResult = LoginResponse.fromApiResponse(response);
 
-      if (statusCode >= 200 && statusCode < 300) {
-        return RegisterResponse.fromJson(decoded);
-      } else {
-        final errorMsg = decoded['message'] ??
-            decoded['msg'] ??
-            decoded['error'] ??
-            'Request failed with status $statusCode';
-        return RegisterResponse(
-          success: false,
-          message: errorMsg is List ? errorMsg.join(', ') : errorMsg.toString(),
-        );
-      }
-    } catch (_) {
-      if (statusCode >= 200 && statusCode < 300) {
-        return RegisterResponse(
-          success: true,
-          message: 'Operation successful',
-        );
-      }
-      return RegisterResponse(
-        success: false,
-        message: 'Server error (status $statusCode)',
+    if (loginResult.success &&
+        loginResult.token != null &&
+        loginResult.userId != null) {
+      await TokenStorage().saveAuthInfo(
+        token: loginResult.token!,
+        userId: loginResult.userId!,
+        role: loginResult.role ?? 'provider',
       );
     }
+
+    return loginResult;
+  }
+
+  // ================= FORGOT PASSWORD: SEND OTP =================
+  Future<ApiResponse> sendOtp({
+    required String email,
+  }) async {
+    return _client.post(
+      ApiConstants.sendOtp,
+      requireAuth: false,
+      body: {
+        'email': email,
+      },
+    );
+  }
+
+  // ================= FORGOT PASSWORD: VERIFY OTP =================
+  Future<ApiResponse> verifyOtp({
+    required String email,
+    required String otp,
+  }) async {
+    return _client.post(
+      ApiConstants.verifyOtp,
+      requireAuth: false,
+      body: {
+        'email': email,
+        'otp': otp,
+      },
+    );
+  }
+
+  // ================= RESET PASSWORD =================
+  Future<ApiResponse> resetPassword({
+    required String email,
+    required String otp,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    return _client.post(
+      ApiConstants.resetPassword,
+      requireAuth: false,
+      body: {
+        'email': email,
+        'otp': otp,
+        'password': newPassword,
+        'confirmPassword': confirmPassword,
+      },
+    );
+  }
+
+  // ================= LOGOUT =================
+  Future<ApiResponse> logout() async {
+    final response = await _client.post(
+      ApiConstants.logout,
+      requireAuth: true,
+    );
+    await TokenStorage().clearAll();
+    return response;
   }
 }
